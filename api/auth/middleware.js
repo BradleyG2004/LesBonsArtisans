@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const JWT_SECRET = 'votre_secret'; // Utilisez le même secret que dans `controller.js`
+const JWT_SECRET = 'Secrett'; // Utilisez le même secret que dans `controller.js`
 
 module.exports = {
   authenticate: (req, res, next) => {

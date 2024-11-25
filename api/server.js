@@ -12,7 +12,7 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
-const port = process.env.PORT || 3000;  // Mettre 3000 ici, puisque c'est le port que vous souhaitez
+const port = process.env.PORT || 3000;
 const mongoURI ='mongodb://localhost:27017/LBA';
 
 
@@ -26,6 +26,7 @@ app.use(bodyParser.json());
 // Connexion MongoDB
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
+    app.locals.db = mongoose.connection;
     console.log('MongoDB connected');
   })
   .catch(error => console.error('Error connecting to MongoDB:', error));

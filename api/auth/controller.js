@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-const JWT_SECRET = 'votre_secret'; // À remplacer par une clé secrète plus sécurisée et configurable via .env
+const JWT_SECRET = 'Secrett'; 
 
 module.exports = {
   register: async (req, res) => {
