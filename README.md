@@ -18,3 +18,10 @@ Votre code devra respecter la norme du linter ESLint (https://eslint.org/ ) (vou
   { "_id" : 3, "name" : "AC3 Phone3", "type" : "phone", "price" : 150, "rating" : 2,"warranty_years" : 1, "available" : true },
   { "_id" : 4, "name" : "AC4 Phone4", "type" : "phone", "price" : 50.20, "rating" : 3,"warranty_years" : 2, "available" : true }
 ]
+
+
+➡️ Mode d'emploi:
+
+->lancer la commande : "docker-compose up --build" pour la base de donnees ( installer l'outil Docker desktop au prealable)
+->lancer la commande : "node server.js" pour lancer l'API 
+->lancer la commande : "npm run start" pour lancer le front-end
