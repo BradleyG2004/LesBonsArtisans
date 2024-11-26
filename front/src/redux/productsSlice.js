@@ -3,8 +3,16 @@ import { api } from '../services/api';
 
 // Actions asynchrones pour interagir avec l'API
 export const fetchProducts = createAsyncThunk('products/fetchProducts', async () => {
-    const response = await api.getProducts();
-    return response.data;
+    try {
+        const response = await api.getProducts();
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching products:', error.message);
+        if (error.response) {
+            console.error('Response data:', error.response.data);
+        }
+        throw error; // Lancez à nouveau l'erreur pour que Redux la gère
+    }
 });
 
 export const createProduct = createAsyncThunk('products/createProduct', async (product) => {
