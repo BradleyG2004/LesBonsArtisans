@@ -31,5 +31,5 @@ Les produits de la base de données :
 
 ➡️ A SAVOIR:
 
-L'erreur "Erreur : Request failed with status code 401" apparait lorsqu'on est pas authentifie .
+L'erreur "Erreur : Request failed with status code 401" apparait lorsqu'on est pas authentifie .Il faut donc creer un uilitsateur ("/register") et se logger ("/login") pour manipuler l'app.
 
