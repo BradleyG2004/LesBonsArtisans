@@ -1,11 +1,36 @@
 module.exports = {
+    // createProduct: async (req, res) => {
+    //   const db = req.app.locals.db;
+    //   const io = req.app.locals.io;
+    //   try {
+    //     const result = await db.collection('products').insertOne(req.body);
+    //     io.emit('raffraichissement-produits', { action: 'create', product: req.body });
+    //     res.status(201).json(result);
+    //   } catch (error) {
+    //     res.status(500).json({ error: 'Unable to create product' });
+    //   }
+    // },
     createProduct: async (req, res) => {
       const db = req.app.locals.db;
       const io = req.app.locals.io;
+      const getNextSequenceValue = req.app.locals.getNextSequenceValue;
+
+    
       try {
-        const result = await db.collection('products').insertOne(req.body);
-        io.emit('raffraichissement-produits', { action: 'create', product: req.body });
-        res.status(201).json(result);
+        // Générer un nouvel ID séquentiel pour le produit
+        const newId = await getNextSequenceValue(db, 'products');
+    
+        // Ajouter l'ID généré au corps de la requête
+        const newProduct = { _id: newId, ...req.body };
+    
+        // Insérer le produit dans la base de données
+        const result = await db.collection('products').insertOne(newProduct);
+    
+        // Notifier les clients via WebSocket
+        io.emit('raffraichissement-produits', { action: 'create', product: newProduct });
+    
+        // Répondre au client
+        res.status(201).json(newProduct);
       } catch (error) {
         res.status(500).json({ error: 'Unable to create product' });
       }

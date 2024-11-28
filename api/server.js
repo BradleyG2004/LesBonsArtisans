@@ -9,7 +9,34 @@ const authRoutes = require('./auth/routes');
 const { authenticate } = require('./auth/middleware');
 
 const app = express();
-const server = http.createServer(app);
+const server = http.createServer(app);  
+
+const getNextSequenceValue = async (db, sequenceName) => {
+  const sequenceDocument = await db.collection('counters').findOneAndUpdate(
+    { _id: sequenceName },
+    { $inc: { sequence_value: 1 } },
+    {
+      returnDocument: 'after', // Retourne le document après mise à jour
+      upsert: true           // Crée le document si absent
+    }
+  );
+
+  console.log('Result of findOneAndUpdate:', sequenceDocument);
+
+  if (!sequenceDocument || !sequenceDocument.value) {
+    const createdDocument = await db.collection('counters').findOne({ _id: sequenceName });
+    if (!createdDocument || !createdDocument.sequence_value) {
+      throw new Error(`Failed to update sequence for: ${sequenceName}`);
+    }
+    return createdDocument.sequence_value;
+  }
+  
+
+  return sequenceDocument.value.sequence_value;
+};
+
+app.locals.getNextSequenceValue = getNextSequenceValue;
+
 const io = new Server(server, {
   cors: {
       origin: 'http://localhost:3001', // URL du front-end
@@ -40,7 +67,7 @@ app.use(bodyParser.json());
 // Connexion MongoDB
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
-    app.locals.db = mongoose.connection;
+    app.locals.db = mongoose.connection.db;
     console.log('MongoDB connected');
   })
   .catch(error => console.error('Error connecting to MongoDB:', error));
@@ -48,6 +75,17 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/products', authenticate, productRoutes);
+
+app.get('/test-sequence', async (req, res) => {
+  const db = req.app.locals.db;
+  try {
+    const newId = await getNextSequenceValue(db, 'products');
+    res.json({ newId });
+  } catch (error) {
+    console.error('Error in /test-sequence:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
 
 // WebSocket -> Gestion des connexions clients
 io.on('connection', (socket) => {

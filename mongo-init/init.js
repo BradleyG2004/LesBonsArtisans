@@ -7,3 +7,7 @@ db.products.insertMany([
   { "_id" : 3, "name" : "AC3 Phone3", "type" : "phone", "price" : 150, "rating" : 2, "warranty_years" : 1, "available" : true },
   { "_id" : 4, "name" : "AC4 Phone4", "type" : "phone", "price" : 50.20, "rating" : 3, "warranty_years" : 2, "available" : true }
 ]);
+db.counters.insertOne({
+  "_id": "products",         // Identifiant du compteur pour la collection 'products'
+  "sequence_value": 4        // Dernière valeur utilisée pour _id
+});

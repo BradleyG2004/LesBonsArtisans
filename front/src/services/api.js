@@ -17,7 +17,7 @@ export const api = {
             },
         }),
     updateProduct: (id, product) =>
-        axios.put(`${API_BASE_URL}/products/${id}`, product, {
+        axios.patch(`${API_BASE_URL}/products/${id}`, product, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`,
             },
