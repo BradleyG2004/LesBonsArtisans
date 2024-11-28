@@ -1,3 +1,6 @@
+
+➡️ CONSIGNE:
+
 - Une API REST en Node.js/Express lié à une base de données (MongoDB https://mongodb.github.io/node-mongodb-native/3.2/ ) qui contient les produits (voir plus bas) et qui permettra de créer, récupérer, modifier ou supprimer ces données.
 
 - Une application Web en ReactJS qui permettra de consulter ces produits, les modifier, en supprimer ou en créer de nouveaux, vous afficherez les produits dans une liste. Pour la modification et la suppression, nous vous laissons le choix de la view à implémenter (Page de modification/Popup, etc).
@@ -11,7 +14,7 @@ Bonus :
  
 Votre code devra respecter la norme du linter ESLint (https://eslint.org/ ) (vous pouvez aussi l'installer directement via VSCode).
 
-➡️ Les produits de la base de données : 
+Les produits de la base de données : 
 [
   { "_id" : 1, "name" : "AC1 Phone1", "type" : "phone", "price" : 200.05, "rating" : 3.8,"warranty_years" : 1, "available" : true },
   { "_id" : 2, "name" : "AC2 Phone2", "type" : "phone", "price" : 147.21, "rating" : 1,"warranty_years" : 3, "available" : false },
@@ -20,8 +23,13 @@ Votre code devra respecter la norme du linter ESLint (https://eslint.org/ ) (vou
 ]
 
 
-➡️ Mode d'emploi:
+➡️ MODE D'EMPLOI:
 
 ->lancer la commande : "docker-compose up --build" pour la base de donnees ( installer l'outil Docker desktop au prealable)
 ->lancer la commande : "node server.js" pour lancer l'API 
 ->lancer la commande : "npm run start" pour lancer le front-end
+
+➡️ A SAVOIR:
+
+L'erreur "Erreur : Request failed with status code 401" apparait lorsqu'on est pas authentifie .Il faut donc creer un uilitsateur ("/register") et se logger ("/login") pour manipuler l'app.
+
